@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    
+    <style> 
+            *{
+            margin: 0;
+            padding: 0;
+        }
+
+        .tela {
+            background-image: linear-gradient(45deg, black, #464e4e);
+            height: 100vh;
+            color: white;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .calculadora {
+            position: absolute;
+            background-color: black;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 9px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .botao {
+            width: 55px;
+            height: 50px;
+            font-size: 25px;
+            margin: 3px;
+            cursor: pointer;
+            background-color: rgb(31,31,31);
+            border: none;
+            color:white;
+        }
+        
+        .botao:hover{
+            background-color: #3ac9c0;
+        }
+
+        #display{
+            background-color: white;
+            width: 238px;
+            height: 30px;
+            margin: 5px;
+            font-size: 25px;
+            color: black;
+            text-align: right;
+            padding: 5px;
+        }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="tela">
+            <br> <br>
+            <h1> Projeto: Calculadora em HTML, CSS e JS </h1>
+            <br>
+            <h2> Lívia Couto </h2>
+        
+        <div class="calculadora">
+            <h1>Calculadora</h1>
+            <textarea id = "display" disabled rows="2"> </textarea>
+
+            <table>
+                <tr>
+                    <td><button class="botao" onclick="clearAll()">C</button></td>
+                    <td><button class="botao" onclick="clearDisplay()">CE</button></td>
+                    <td><button class="botao" onclick="pressOperator(this)">/</button></td>
+                    <td><button class="botao" onclick="pressOperator(this)">*</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="clickNum(this)">7</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">8</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">9</button></td>
+                    <td><button class="botao" onclick="pressOperator(this)">-</button></td>
+                </tr>
+
+                <tr>
+                    <td><button class="botao" onclick="clickNum(this)">4</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">5</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">6</button></td>
+                    <td><button class="botao" onclick="pressOperator(this)">+</button></td>
+                </tr>
+
+                <tr>
+                    <td><button class="botao" onclick="clickNum(this)">1</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">2</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">3</button></td>
+                    <td rowspan="2"><button class="botao" style="height: 106px;"  onclick="pressIgualdade()">=</button></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><button class="botao" style="width: 120px;" onclick="clickNum(this)">0</button></td>
+                    <td><button class="botao" onclick="clickNum(this)">.</button></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+    <script>
+                var displayInfo = "";
+                var numero = ""; 
+                var termos = [undefined, undefined, undefined];
+                var resultado = undefined;
+        
+        
+                function clickNum(num) {
+                    numero = numero.concat (num.innerHTML);
+                    showDisplay(num.innerHTML);
+                }
+        
+                function pressOperator(op) {
+                        termos[0] = numero;
+                        termos[1] = op.innerHTML;
+                        showDisplay(op.innerHTML); 
+                        numero = ""; 
+                   
+                }
+                //  IMPEDIR QUE MAIS UM OPERADOR SEJA ADICIONADO NA OPERAÇÃO.
+        
+                function pressIgualdade() {
+                    if(termos[0] != undefined && termos[1] != undefined && numero != ""){
+                        termos[2] = numero;
+                    var guardaresultado;
+                    switch(termos[1]){
+                        case '+':
+                            resultado = Number(termos[0])+Number(termos[2]);
+                            break;
+                        case '-':
+                            resultado = Number(termos[0])-Number(termos[2]);
+                            break;
+                        case '*':
+                            resultado = Number(termos[0])*Number(termos[2]);
+                            break;
+                        case '/':
+                            resultado = Number(termos[0])/Number(termos[2]);
+                            break;
+                    }
+                    guardaresultado = resultado;
+                    clearDisplay();
+                    showDisplay(resultado);
+                    clearMemoria();
+                    numero = guardaresultado.toString();
+                    }
+                    
+                }
+        
+                function clearMemoria() {
+                    numero = ""; 
+                    termos = [undefined, undefined, undefined];
+                    resultado = undefined;
+                }
+        
+                function clearDisplay() {
+                    displayInfo = "";
+                    var tela = document.getElementById('display');
+                    tela.value = displayInfo;
+                }
+        
+                function clearAll() {
+                    clearDisplay();
+                    clearMemoria();
+                    
+                }
+        
+                function showDisplay(conteudo){
+                    displayInfo = displayInfo.concat(conteudo);
+                    var tela = document.getElementById('display');
+                    tela.value = displayInfo;
+                }  
+        
+            </script>
+   
+</body>
+</html>
